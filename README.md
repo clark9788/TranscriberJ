@@ -104,6 +104,7 @@ TranscriberJ/
 │       └── resources/
 │           └── templates/                           # Template files
 │               └── default_template.txt
+|               |__ styles                           # css file for gui style
 ├── transcriptions/                                  # Generated: saved transcriptions
 ├── recordings/                                      # Generated: temporary audio files
 ├── audit_logs/                                      # Generated: audit log CSV files
