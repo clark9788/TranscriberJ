@@ -1,0 +1,82 @@
+/* Root layout */
+.root {
+    -fx-background-color: #f9f9f9;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* Top panel (GridPane) */
+.grid-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 10;
+}
+
+/* Labels */
+.label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Status label */
+.label.status {
+    -fx-text-fill: #0078d7;
+    -fx-font-weight: bold;
+}
+
+/* Text fields and combo boxes */
+.text-field, .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4;
+    -fx-padding: 4 6;
+    -fx-font-size: 14px;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #0078d7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 6 12;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+.button:hover {
+    -fx-background-color: #005a9e;
+}
+.button:pressed {
+    -fx-background-color: #004578;
+}
+
+/* Left panel (Transcriptions list) */
+.vbox {
+    -fx-background-color: #f0f0f0;
+}
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4;
+}
+
+/* Text editor */
+.text-area {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4;
+    -fx-padding: 6;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 13px;
+}
+
+/* ScrollPane styling */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+/* HBox for buttons */
+.hbox {
+    -fx-spacing: 5;
+}
