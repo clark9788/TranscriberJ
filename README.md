@@ -53,7 +53,7 @@ Or build an executable JAR:
 
 ```bash
 mvn clean package
-java -jar target/transcriberj-1.0.0.jar
+java -jar target/transcriberj-1.0.1.jar
 ```
 
 ## Usage
@@ -150,7 +150,7 @@ Configuration is managed in `com.transcriber.config.Config`:
 
 ## Version
 
-1.0.0
+1.0.1
 
 
 "# TranscriberJ" 

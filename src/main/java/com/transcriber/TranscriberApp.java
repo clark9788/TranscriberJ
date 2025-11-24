@@ -2,6 +2,7 @@ package com.transcriber;
 
 import com.transcriber.audio.AudioRecorder;
 import com.transcriber.cloud.GCloudTranscriber;
+import com.transcriber.config.Config;
 import com.transcriber.file.FileManager;
 import com.transcriber.template.TemplateManager;
 import com.transcriber.text.TranscriptionCleaner;
@@ -14,6 +15,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
@@ -138,7 +140,7 @@ public class TranscriberApp extends javafx.application.Application {
         sendToGoogleButton = new Button("Send to Google");
         sendToGoogleButton.setOnAction(e -> triggerTranscription());
     
-        deleteRecordingButton = new Button("Delete Recording");
+        deleteRecordingButton = new Button("Delete Recordings");
         deleteRecordingButton.setOnAction(e -> deleteRecording());
     
         saveButton = new Button("Save");
@@ -232,12 +234,58 @@ public class TranscriberApp extends javafx.application.Application {
     }
     
     private void deleteRecording() {
-        if (currentRecording == null) {
+        // Check if recordings directory exists and has files
+        if (!Files.exists(Config.RECORDINGS_DIR)) {
+            showInfo("No Recordings", "Recordings directory does not exist.");
             return;
         }
-        FileManager.secureDelete(currentRecording, patientField.getText());
+        
+        // List all files in recordings directory
+        List<Path> recordingFiles;
+        try {
+            recordingFiles = new java.util.ArrayList<>();
+            try (var stream = Files.list(Config.RECORDINGS_DIR)) {
+                stream.filter(Files::isRegularFile)
+                      .forEach(recordingFiles::add);
+            }
+        } catch (IOException e) {
+            showError("Error", "Failed to list recordings: " + e.getMessage());
+            return;
+        }
+        
+        if (recordingFiles.isEmpty()) {
+            showInfo("No Recordings", "No recording files found to delete.");
+            currentRecording = null;
+            return;
+        }
+        
+        // Confirm deletion of all recordings
+        int fileCount = recordingFiles.size();
+        if (!showConfirm("Delete All Recordings", 
+                String.format("Are you sure you want to permanently delete %d recording file(s)?\n\n" +
+                "This action cannot be undone.", fileCount))) {
+            return;
+        }
+        
+        // Get patient name for audit logging
+        String patient = patientField.getText().trim();
+        if (patient.isEmpty()) {
+            patient = "unknown";
+        }
+        
+        // Securely delete all recording files
+        int deletedCount = 0;
+        for (Path recordingFile : recordingFiles) {
+            try {
+                FileManager.secureDelete(recordingFile, patient);
+                deletedCount++;
+            } catch (Exception e) {
+                System.err.println("Failed to delete recording: " + recordingFile + " - " + e.getMessage());
+            }
+        }
+        
         currentRecording = null;
-        setStatus("Recording deleted");
+        setStatus(String.format("Deleted %d recording file(s)", deletedCount));
     }
     
     private void triggerTranscription() {

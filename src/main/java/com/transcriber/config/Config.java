@@ -15,7 +15,7 @@ public class Config {
     public static final Path TRANSCRIPTIONS_DIR = BASE_DIR.resolve("transcriptions");
     public static final Path RECORDINGS_DIR = BASE_DIR.resolve("recordings");
     public static final Path AUDIT_LOG_DIR = BASE_DIR.resolve("audit_logs");
-    public static final Path TEMPLATES_DIR = BASE_DIR.resolve("src").resolve("main").resolve("resources").resolve("templates");
+    public static final Path TEMPLATES_DIR = BASE_DIR.resolve("templates");
     
     // Google Cloud
     public static final String GCS_BUCKET = "transcribe_bucket9788";

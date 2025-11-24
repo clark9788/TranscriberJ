@@ -3,6 +3,7 @@ package com.transcriber.template;
 import com.transcriber.config.Config;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -22,6 +23,8 @@ public class TemplateManager {
      * Returns a mapping of template name (filename without extension) to file path.
      */
     public static Map<String, Path> loadTemplates() {
+        ensureTemplateDirectory();
+
         Map<String, Path> templates = new HashMap<>();
         if (!Files.exists(Config.TEMPLATES_DIR)) {
             return templates;
@@ -68,6 +71,28 @@ public class TemplateManager {
         matcher.appendTail(result);
         
         return result.toString();
+    }
+
+    /**
+     * Ensure the template directory exists and the default template is available.
+     */
+    private static void ensureTemplateDirectory() {
+        try {
+            Files.createDirectories(Config.TEMPLATES_DIR);
+            Path defaultTemplatePath = Config.TEMPLATES_DIR.resolve("default_template.txt");
+            if (!Files.exists(defaultTemplatePath)) {
+                try (InputStream in = TemplateManager.class.getClassLoader()
+                        .getResourceAsStream("templates/default_template.txt")) {
+                    if (in != null) {
+                        Files.copy(in, defaultTemplatePath);
+                    } else {
+                        System.err.println("Default template resource not found in classpath.");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to initialize template directory: " + e.getMessage());
+        }
     }
     
     /**
