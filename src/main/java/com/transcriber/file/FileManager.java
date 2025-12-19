@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,7 +23,7 @@ public class FileManager {
     
     private static final Pattern SANITIZE_PATTERN = Pattern.compile("[^A-Za-z0-9_-]+");
     private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
-            .withZone(ZoneOffset.UTC);
+            .withZone(ZoneId.systemDefault());
     private static final SecureRandom secureRandom = new SecureRandom();
     
     static {

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class AudioRecorder {
     
     private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
-            .withZone(ZoneOffset.UTC);
+            .withZone(ZoneId.systemDefault());
     
     private TargetDataLine line;
     private Thread recordingThread;
